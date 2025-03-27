@@ -88,8 +88,8 @@ class Contactus extends Component {
         const response = await contactus_axiosInstance.post("/contactus/", {
           name: this.state.formData.name,
           email: this.state.formData.email,
-          phone: this.state.formData.phone || null, // Make phone optional
-          subject: this.state.formData.subject || "", // Make subject optional
+          phone: this.state.formData.phone || null,
+          subject: this.state.formData.subject || "", 
           message: this.state.formData.message,
         });
 
