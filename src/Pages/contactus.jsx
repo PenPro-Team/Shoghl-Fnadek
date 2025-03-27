@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import contactus_axiosInstance from "../axiosinstances/contactus";
 
 class Contactus extends Component {
   constructor(props) {
@@ -80,20 +81,52 @@ class Contactus extends Component {
     if (Object.keys(errors).length === 0) {
       this.setState({ isSubmitting: true });
 
-      // Simulating API call
-      setTimeout(() => {
+      try {
+        // Log the data being sent
+        console.log("Sending form data:", this.state.formData);
+
+        const response = await contactus_axiosInstance.post("/contactus/", {
+          name: this.state.formData.name,
+          email: this.state.formData.email,
+          phone: this.state.formData.phone || null, // Make phone optional
+          subject: this.state.formData.subject || "", // Make subject optional
+          message: this.state.formData.message,
+        });
+
+        console.log("Response:", response);
+
+        if (response.status === 201 || response.status === 200) {
+          this.setState({
+            isSubmitting: false,
+            submitSuccess: true,
+            formData: {
+              name: "",
+              email: "",
+              phone: "",
+              subject: "",
+              message: "",
+            },
+            touched: {},
+          });
+        }
+      } catch (error) {
+        // More detailed error logging
+        console.error("Error details:", {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+        });
+
         this.setState({
           isSubmitting: false,
-          submitSuccess: true,
-          formData: {
-            name: "",
-            email: "",
-            phone: "",
-            subject: "",
-            message: "",
+          errors: {
+            submit:
+              error.response?.data?.detail ||
+              error.response?.data?.message ||
+              "Network error occurred. Please try again later.",
           },
         });
-      }, 2000);
+      }
     } else {
       this.setState({ errors });
     }
@@ -394,6 +427,12 @@ class Contactus extends Component {
                         </p>
                       )}
                     </div>
+
+                    {errors.submit && (
+                      <div className="mb-4">
+                        <p className="text-red-500 text-sm">{errors.submit}</p>
+                      </div>
+                    )}
 
                     <button
                       type="submit"
