@@ -7,13 +7,15 @@ import Login from "./Pages/login";
 import Products from "./Pages/products";
 import ProductDetails from "./Pages/productDetails";
 import HomePage from "./Pages/homePage";
+import Navbar from "./components/navbar";
 function App() {
 
   return (
 
     <Router>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="" element={<HomePage />} />
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/register" element={<Register />} />
