@@ -1,12 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AxiosProductsInstance } from "../Network/Remote/AxiosInstance";
 import ProductCard from "../components/products/productCard";
 
 const Products = () => {
   const navigate = useNavigate();
-  const params = useParams();
   const location = useLocation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -111,11 +109,9 @@ const Products = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Search and Filter Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <form onSubmit={handleSearchSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Search Input */}
             <div>
               <label
                 htmlFor="search"
@@ -133,7 +129,6 @@ const Products = () => {
               />
             </div>
 
-            {/* Min Price Input */}
             <div>
               <label
                 htmlFor="minPrice"
@@ -154,7 +149,6 @@ const Products = () => {
               />
             </div>
 
-            {/* Max Price Input */}
             <div>
               <label
                 htmlFor="maxPrice"
@@ -194,7 +188,6 @@ const Products = () => {
         </form>
       </div>
 
-      {/* Current Filters Display */}
       {(search || minPrice || maxPrice) && (
         <div className="mb-6 p-4 bg-gray-50 rounded-lg">
           <h3 className="text-sm font-medium text-gray-500 mb-2">
@@ -220,7 +213,6 @@ const Products = () => {
         </div>
       )}
 
-      {/* Products Grid */}
       <div className="products-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {products.length > 0 ? (
           products.map((product) => (
@@ -243,7 +235,6 @@ const Products = () => {
         )}
       </div>
 
-      {/* Pagination */}
       {pagination.totalPages > 1 && (
         <div className="flex justify-center mt-8">
           <nav className="flex items-center gap-1">
