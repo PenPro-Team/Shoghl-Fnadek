@@ -19,7 +19,7 @@ const ProductCard = (props) => {
         />
         <button
           onClick={handleQuickView}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-gray-800 px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium text-sm shadow-lg hover:bg-gray-100"
+          className="absolute bottom-4 text-white left-1/2 -translate-x-1/2 bg-white text-gray-800 px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium text-sm shadow-lg hover:bg-gray-100"
         >
           Quick View
         </button>

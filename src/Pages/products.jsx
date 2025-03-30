@@ -1,12 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AxiosProductsInstance } from "../Network/Remote/AxiosInstance";
 import ProductCard from "../components/products/productCard";
 
 const Products = () => {
   const navigate = useNavigate();
-  const params = useParams();
   const location = useLocation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
