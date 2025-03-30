@@ -1,37 +1,28 @@
-// import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Aboutus from "./Pages/aboutus"
-import Contactus from "./Pages/contactus"
-import Navbar from "./components/navbar";
-import Hero from "./Pages/hero";
-import AboutSection from "./Pages/aboutSection";
-import ProductCategorySection from "./Pages/ProductsCategory";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Aboutus from "./Pages/aboutus";
+import Contactus from "./Pages/contactus";
+import Register from "./Pages/register";
+import Login from "./Pages/login";
+import Products from "./Pages/products";
+import ProductDetails from "./Pages/productDetails";
+import HomePage from "./Pages/homePage";
 function App() {
-  // const [count, setCount] = useState(0);
 
   return (
 
-    <div>
-      <Router>
-        <Routes>
-          <Route path="/aboutus" element={<Aboutus />} />
-          <Route path="/contactus" element={<Contactus />} />
-        </Routes>
-      </Router>
-      {/* Navbar Component */}
-      <Navbar />
-
-      {/* Hero Section */}
-      <Hero />
-
-      <AboutSection />
-
-      <ProductCategorySection />
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/contactus" element={<Contactus />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
