@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import contactus_axiosInstance from "../axiosinstances/contactus";
+import ceramicImage from "../images/1.jpg";
+import contactHeroImage from "../images/contact-01.jpg"; // Add this import
+
+const secondaryColor = "#025048";
 
 class Contactus extends Component {
   constructor(props) {
@@ -16,6 +20,38 @@ class Contactus extends Component {
       errors: {},
       isSubmitting: false,
       submitSuccess: false,
+      faqItems: [
+        {
+          question: "How do I create an account?",
+          answer:
+            "You can create an account by clicking on the 'Sign Up' button in the header and following the instructions.",
+          isOpen: false,
+        },
+        {
+          question: "How do I reset my password?",
+          answer:
+            "To reset your password, click on the 'Forgot Password' link on the login page and follow the instructions sent to your email.",
+          isOpen: false,
+        },
+        {
+          question: "How can I contact support?",
+          answer:
+            "You can contact support via the contact form on this page, or by emailing us directly at info@shoghlfnadek.com.",
+          isOpen: false,
+        },
+        {
+          question: "What types of jobs are listed on Shoghl Fnadek?",
+          answer:
+            "Shoghl Fnadek lists a wide variety of jobs, primarily focusing on the hospitality and tourism sectors. This includes positions in hotels, resorts, restaurants, and related industries.",
+          isOpen: false,
+        },
+        {
+          question: "Is it free to apply for jobs on Shoghl Fnadek?",
+          answer:
+            "Yes, it is completely free for job seekers to apply for jobs listed on Shoghl Fnadek. Our services are designed to connect you with potential employers at no cost.",
+          isOpen: false,
+        },
+      ],
     };
   }
 
@@ -89,7 +125,7 @@ class Contactus extends Component {
           name: this.state.formData.name,
           email: this.state.formData.email,
           phone: this.state.formData.phone || null,
-          subject: this.state.formData.subject || "", 
+          subject: this.state.formData.subject || "",
           message: this.state.formData.message,
         });
 
@@ -132,24 +168,59 @@ class Contactus extends Component {
     }
   };
 
+  toggleFAQ = (index) => {
+    this.setState((prevState) => {
+      const updatedFaqItems = prevState.faqItems.map((item, i) => {
+        if (i === index) {
+          return { ...item, isOpen: !item.isOpen };
+        } else {
+          return { ...item, isOpen: false }; // Close other FAQs
+        }
+      });
+      return { faqItems: updatedFaqItems };
+    });
+  };
+
   render() {
-    const { formData, errors, isSubmitting, submitSuccess, touched } =
+    const { formData, errors, isSubmitting, submitSuccess, touched, faqItems } =
       this.state;
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         {/* Hero Section */}
-        <div className="bg-blue-600 text-white py-20">
+        <div
+          className="pt-16 pb-16 relative" // تقليل ال padding-bottom
+          style={{ backgroundColor: secondaryColor, color: "white" }}
+        >
           <div className="container mx-auto px-6">
-            <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
-            <p className="text-xl opacity-90">
-              We're here to help with your career journey
-            </p>
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="w-full md:w-1/2 mb-8 md:mb-0">
+                <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
+                <p className="text-xl opacity-90">
+                  We're here to help with your career journey
+                </p>
+              </div>
+              <div className="w-full md:w-1/2 flex justify-end">
+                <div className="relative w-full max-w-[460px] transform translate-y-24">
+                  {" "}
+                  {/* زيادة قيمة translate-y */}
+                  <img
+                    src={contactHeroImage}
+                    alt="Contact Hero"
+                    className="w-full h-auto rounded-lg shadow-2xl" // تحسين الظل
+                    fetchpriority="high"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Contact Form Section */}
-        <div className="container mx-auto px-6 py-16">
+        <div className="container mx-auto px-6 pt-32 pb-16">
+          {" "}
+          {/* زيادة ال padding-top */}
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
               {/* Contact Information */}
@@ -159,12 +230,15 @@ class Contactus extends Component {
                 </h2>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="bg-blue-100 rounded-full p-3">
+                    <div
+                      className="flex-shrink-0"
+                      style={{ backgroundColor: "rgba(2, 80, 72, 0.15)" }}
+                    >
+                      <div className="rounded-full p-3">
                         <svg
-                          className="w-6 h-6 text-blue-600"
+                          className="w-6 h-6"
                           fill="none"
-                          stroke="currentColor"
+                          stroke={secondaryColor}
                           viewBox="0 0 24 24"
                         >
                           <path
@@ -187,12 +261,15 @@ class Contactus extends Component {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="bg-blue-100 rounded-full p-3">
+                    <div
+                      className="flex-shrink-0"
+                      style={{ backgroundColor: "rgba(2, 80, 72, 0.15)" }}
+                    >
+                      <div className="rounded-full p-3">
                         <svg
-                          className="w-6 h-6 text-blue-600"
+                          className="w-6 h-6"
                           fill="none"
-                          stroke="currentColor"
+                          stroke={secondaryColor}
                           viewBox="0 0 24 24"
                         >
                           <path
@@ -217,12 +294,15 @@ class Contactus extends Component {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="bg-blue-100 rounded-full p-3">
+                    <div
+                      className="flex-shrink-0"
+                      style={{ backgroundColor: "rgba(2, 80, 72, 0.15)" }}
+                    >
+                      <div className="rounded-full p-3">
                         <svg
-                          className="w-6 h-6 text-blue-600"
+                          className="w-6 h-6"
                           fill="none"
-                          stroke="currentColor"
+                          stroke={secondaryColor}
                           viewBox="0 0 24 24"
                         >
                           <path
@@ -253,12 +333,15 @@ class Contactus extends Component {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="bg-blue-100 rounded-full p-3">
+                    <div
+                      className="flex-shrink-0"
+                      style={{ backgroundColor: "rgba(2, 80, 72, 0.15)" }}
+                    >
+                      <div className="rounded-full p-3">
                         <svg
-                          className="w-6 h-6 text-blue-600"
+                          className="w-6 h-6"
                           fill="none"
-                          stroke="currentColor"
+                          stroke={secondaryColor}
                           viewBox="0 0 24 24"
                         >
                           <path
@@ -288,14 +371,16 @@ class Contactus extends Component {
                     <div className="flex space-x-4">
                       <a
                         href="https://www.facebook.com/profile.php?id=100063959018807"
-                        className="bg-blue-100 p-3 rounded-full hover:bg-blue-200 transition-colors"
+                        className="p-3 rounded-full hover:bg-blue-200 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
+                        style={{ backgroundColor: "rgba(2, 80, 72, 0.15)" }}
                       >
                         <svg
-                          className="w-6 h-6 text-blue-600"
+                          className="w-6 h-6"
                           fill="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: secondaryColor }}
                         >
                           <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                         </svg>
@@ -308,8 +393,14 @@ class Contactus extends Component {
               {/* Contact Form */}
               <div>
                 {submitSuccess ? (
-                  <div className="bg-green-50 p-6 rounded-lg">
-                    <h3 className="text-green-800 font-semibold text-lg mb-2">
+                  <div
+                    className="p-6 rounded-lg"
+                    style={{ backgroundColor: "rgba(2, 80, 72, 0.05)" }}
+                  >
+                    <h3
+                      className="font-semibold text-lg mb-2"
+                      style={{ color: secondaryColor }}
+                    >
                       Thank you for contacting us!
                     </h3>
                     <p className="text-green-700">
@@ -328,11 +419,8 @@ class Contactus extends Component {
                         value={formData.name}
                         onChange={this.handleChange}
                         onBlur={() => this.handleBlur("name")}
-                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                          touched.name && errors.name
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300"
-                        }`}
+                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                        style={{ focusRingColor: secondaryColor }}
                         placeholder="Enter your full name"
                       />
                       {touched.name && errors.name && (
@@ -352,11 +440,8 @@ class Contactus extends Component {
                         value={formData.email}
                         onChange={this.handleChange}
                         onBlur={() => this.handleBlur("email")}
-                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                          touched.email && errors.email
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300"
-                        }`}
+                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                        style={{ focusRingColor: secondaryColor }}
                         placeholder="Enter your email address"
                       />
                       {touched.email && errors.email && (
@@ -376,11 +461,8 @@ class Contactus extends Component {
                         value={formData.phone}
                         onChange={this.handleChange}
                         onBlur={() => this.handleBlur("phone")}
-                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                          touched.phone && errors.phone
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300"
-                        }`}
+                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                        style={{ focusRingColor: secondaryColor }}
                         placeholder="Enter your phone number"
                       />
                       {touched.phone && errors.phone && (
@@ -399,7 +481,8 @@ class Contactus extends Component {
                         name="subject"
                         value={formData.subject}
                         onChange={this.handleChange}
-                        className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all border-gray-300"
+                        className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition-all border-gray-300"
+                        style={{ focusRingColor: secondaryColor }}
                         placeholder="Enter message subject"
                       />
                     </div>
@@ -414,11 +497,8 @@ class Contactus extends Component {
                         onChange={this.handleChange}
                         onBlur={() => this.handleBlur("message")}
                         rows="4"
-                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                          touched.message && errors.message
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-gray-300"
-                        }`}
+                        className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                        style={{ focusRingColor: secondaryColor }}
                         placeholder="Enter your message"
                       ></textarea>
                       {touched.message && errors.message && (
@@ -437,15 +517,109 @@ class Contactus extends Component {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all ${
+                      className={`w-full text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ${
                         isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                       }`}
+                      style={{ backgroundColor: secondaryColor }}
                     >
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
                   </form>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQs Section */}
+        <div className="container mx-auto px-6 py-16">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {faqItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg overflow-hidden shadow-md"
+                >
+                  <button
+                    className="flex items-center justify-between w-full py-4 px-6 bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 focus:outline-none transition-all duration-500"
+                    onClick={() => this.toggleFAQ(index)}
+                  >
+                    <span>{item.question}</span>
+                    <svg
+                      className={`w-5 h-5 text-gray-600 transform transition-transform duration-500 ease-in-out ${
+                        item.isOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className={`transition-all duration-700 ease-in-out overflow-hidden bg-white`}
+                    style={{
+                      maxHeight: item.isOpen ? "1000px" : "0",
+                      opacity: item.isOpen ? 1 : 0,
+                      transform: `translateY(${item.isOpen ? "0" : "-10px"})`,
+                      transition: "all 700ms cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  >
+                    <div className="p-6 text-gray-700">{item.answer}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Call-to-Action Section */}
+        <div className="w-full" style={{ backgroundColor: secondaryColor }}>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Left side - Image */}
+            <div className="relative h-[350px] md:h-[400px] overflow-hidden">
+              <img
+                src={ceramicImage}
+                className="absolute inset-0 w-full h-full object-cover object-center"
+                alt="Ceramic Artistry"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Right side - Content */}
+            <div className="flex flex-col items-center justify-center py-8 md:py-12 px-6 md:px-12">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 text-center leading-tight">
+                Uncover the World of Ceramic Artistry Start Your Journey Here!
+              </h2>
+              <a
+                href="#"
+                className="bg-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-lg"
+                style={{
+                  color: secondaryColor,
+                  borderColor: "white",
+                  border: "2px solid white",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "white";
+                  e.currentTarget.style.border = "2px solid white";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "white";
+                  e.currentTarget.style.color = secondaryColor;
+                  e.currentTarget.style.border = "2px solid white";
+                }}
+              >
+                SHOP NOW
+              </a>
             </div>
           </div>
         </div>
