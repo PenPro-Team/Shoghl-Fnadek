@@ -4,6 +4,7 @@ import FormInput from '../components/auth/FormInput';
 import PasswordInput from '../components/auth/PasswordInput';
 import SubmitButton from '../components/auth/SubmitButton';
 import AuthCard from '../components/auth/AuthCard';
+import { AxiosRegisterInstance } from '../Network/Remote/AxiosInstance';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Register = () => {
         firstName: '',
         lastName: '',
         email: '',
+        phone: '', // Added phone field
         password: '',
         confirmPassword: ''
     });
@@ -83,8 +85,6 @@ const Register = () => {
         setPasswordStrength({ score, message });
     };
 
-   
-
     const validateForm = () => {
         const newErrors = {};
         
@@ -95,6 +95,10 @@ const Register = () => {
             newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Email is invalid';
+        }
+        
+        if (formData.phone && !/^(\+20|0)?1[0125]\d{8}$/.test(formData.phone)) {
+            newErrors.phone = 'Invalid Egyptian phone number';
         }
         
         if (!formData.password) {
@@ -120,13 +124,18 @@ const Register = () => {
             setIsSubmitting(true);
             
             try {
-                // API call will go here
-               
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                console.log('Form submitted', formData);
+               const response = await AxiosRegisterInstance.post('', {
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: formData.email,
+                    phone_number: formData.phone,
+                    password: formData.password,
+                   
+                });
+                console.log('Registration successful:', response.data);
 
-                // navigate('/login');
-                alert('Registration successful!'); 
+                navigate('/login');
+           
             } catch (error) {
                 console.error('Registration error:', error);
                 setErrors({ submit: 'Registration failed. Please try again.' });
@@ -186,6 +195,18 @@ const Register = () => {
                     error={errors.email}
                     required={true}
                     autoComplete="email"
+                />
+
+                <FormInput
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    label="Phone Number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    error={errors.phone}
+                    placeholder="e.g. 01012345678"
+                    autoComplete="tel"
                 />
 
                 <PasswordInput
