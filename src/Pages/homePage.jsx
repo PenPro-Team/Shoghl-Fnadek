@@ -1,12 +1,3 @@
-{/* <Navbar />
-
-      {/* Hero Section */}
-// <Hero />
-
-// <AboutSection />
-
-// <ProductCategorySection /> */}
-
 import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Hero from './hero';
@@ -16,6 +7,8 @@ import MostPopularSection from './mostPopularSection';
 import StaticHeroSection from './staticSection';
 import TrendingSection from './trendingSection';
 import TestimonialSection from './testmunialSection';
+import BeforFooter from './beforFooter';
+import Footer from './Footer';
 
 const HomePage = () => {
     return (
@@ -28,6 +21,8 @@ const HomePage = () => {
             <StaticHeroSection />
             <TrendingSection />
             <TestimonialSection />
+            <BeforFooter />
+            <Footer />
         </>
     )
 };
