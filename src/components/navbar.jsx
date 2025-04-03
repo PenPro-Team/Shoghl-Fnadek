@@ -1,13 +1,30 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Cart from "./Cart/Cart";
 import { useCart } from '../context/CartContext';
+import { getFromLocalStorage, logout } from '../Network/local/localstorage';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { cartCount } = useCart();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const authData = getFromLocalStorage('auth');
+        setIsAuthenticated(authData?.isAuthenticated || false);
+    }, []);
+
+    const handleLogout = async () => {
+        const success = await logout();
+        if (success) {
+            setIsAuthenticated(false);
+            navigate('/');
+        }
+    };
 
     return (
         <>
@@ -39,6 +56,29 @@ const Navbar = () => {
 
                     {/* Desktop Navigation Links */}
                     <div className="hidden md:flex items-center space-x-4">
+                        {!isAuthenticated ? (
+                            <>
+                                <a
+                                    href="/login"
+                                    className="text-white bg-blue-600 px-4 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out"
+                                >
+                                    <span className="text-white">تسجيل الدخول</span>
+                                </a>
+                                <a
+                                    href="/register"
+                                    className="text-white bg-green-600 px-4 py-2 rounded-md hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out"
+                                >
+                                    <span className="text-white">إنشاء حساب</span>
+                                </a>
+                            </>
+                        ) : (
+                            <button
+                                onClick={handleLogout}
+                                className="text-white bg-red-600 px-4 py-2 rounded-md hover:bg-red-700 hover:scale-105 transition duration-300 ease-in-out"
+                            >
+                                تسجيل الخروج
+                            </button>
+                        )}
                         <a
                             href="contactus"
                             className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
@@ -80,30 +120,58 @@ const Navbar = () => {
                 {isMobileMenuOpen && (
                     <div className="md:hidden pt-4 pb-2 border-t border-gray-700 mt-4">
                         <div className="flex flex-col items-end space-y-3">
+                            {!isAuthenticated ? (
+                                <>
+                                    <a
+                                        href="/login"
+                                        className="text-white bg-blue-600 px-4 py-2 rounded-md w-full text-center hover:bg-blue-700"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        تسجيل الدخول
+                                    </a>
+                                    <a
+                                        href="/register"
+                                        className="text-white bg-green-600 px-4 py-2 rounded-md w-full text-center hover:bg-green-700"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        إنشاء حساب
+                                    </a>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="text-white bg-red-600 px-4 py-2 rounded-md w-full text-center hover:bg-red-700"
+                                >
+                                    تسجيل الخروج
+                                </button>
+                            )}
                             <a
                                 href="/"
-                                className="text-white hover:text-gray-300 block w-full text-right py-2"
+                                className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 الرئيسية
                             </a>
                             <a
                                 href="aboutus"
-                                className="text-white hover:text-gray-300 block w-full text-right py-2"
+                                className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 من نحن
                             </a>
                             <a
                                 href="products"
-                                className="text-white hover:text-gray-300 block w-full text-right py-2"
+                                className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 المتجر
                             </a>
                             <a
                                 href="contactus"
-                                className="text-white hover:text-gray-300 block w-full text-right py-2"
+                                className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 تواصل معنا
