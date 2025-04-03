@@ -1,105 +1,58 @@
 import { React, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
+import Cart from "./Cart/Cart";
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    const [isCartOpen, setIsCartOpen] = useState(false);
+    const { cartCount } = useCart();
 
     return (
-        <nav className="bg-black text-white py-4 px-4 md:px-8">
-            <div className="container mx-auto flex flex-wrap justify-between items-center">
-                {/* Logo */}
-                <div className="text-2xl font-bold">شغل فنادق</div>
+        <>
+            <nav className="bg-black text-white py-4 px-8">
+                <div className="container mx-auto flex justify-between items-center">
+                    {/* Logo */}
+                    <div className="text-2xl font-bold">شغل فنادق</div>
 
-                {/* Mobile menu button */}
-                <button
-                    className="md:hidden flex items-center"
-                    onClick={toggleMenu}
-                    aria-label="Toggle menu"
-                >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        {isMenuOpen ? (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        ) : (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                        )}
-                    </svg>
-                </button>
-
-                {/* Navigation Links - Desktop */}
-                <div className="hidden md:flex items-center space-x-4 text-right">
-                    <a
-                        href="contactus"
-                        className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
-                    >
-                        <span className="text-white">تواصل معنا</span>
-                    </a>
-                    <a
-                        href="products"
-                        className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
-                    >
-                        <span className="text-white">المتجر</span>
-                    </a>
-                    <a
-                        href="aboutus"
-                        className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
-                    >
-                        <span className="text-white">من نحن</span>
-                    </a>
-                    <a
-                        href="/"
-                        className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
-                    >
-                        <span className="text-white">الرئيسية</span>
-                    </a>
-                </div>
-
-                {/* Navigation Links - Mobile */}
-                <div
-                    className={`${isMenuOpen ? 'block' : 'hidden'
-                        } w-full md:hidden mt-4`}
-                >
-                    <div className="flex flex-col items-end space-y-3">
+                    {/* Links */}
+                    <div className="flex items-center space-x-4">
                         <a
-                            href="/"
-                            className="text-white hover:text-gray-300 block w-full text-right py-2"
-                            onClick={() => setIsMenuOpen(false)}
+                            href="#home"
+                            className=" hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                         >
-                            الرئيسية
+                            <span className="text-white">الرئيسية</span>
                         </a>
                         <a
-                            href="aboutus"
-                            className="text-white hover:text-gray-300 block w-full text-right py-2"
-                            onClick={() => setIsMenuOpen(false)}
+                            href="#about"
+                            className="text-white hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                         >
-                            من نحن
+                            <span className="text-white">من نحن</span>
                         </a>
                         <a
-                            href="products"
-                            className="text-white hover:text-gray-300 block w-full text-right py-2"
-                            onClick={() => setIsMenuOpen(false)}
+                            href="#shop"
+                            className="text-white hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                         >
-                            المتجر
+                            <span className="text-white">المتجر</span>
                         </a>
                         <a
-                            href="contactus"
-                            className="text-white hover:text-gray-300 block w-full text-right py-2"
-                            onClick={() => setIsMenuOpen(false)}
+                            href="#contact"
+                            className=" text-white hover:text-gray hover:scale-110 transition duration-300 ease-in-out"
                         >
-                            تواصل معنا
+                            <span className="text-white">تواصل معنا</span>
                         </a>
+                        <div className="relative cursor-pointer" onClick={() => setIsCartOpen(!isCartOpen)}>
+                            <FaShoppingCart className="text-2xl hover:scale-110 transition duration-300 ease-in-out" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+            {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}
+        </>
     );
 };
 
