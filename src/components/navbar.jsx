@@ -4,7 +4,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import Cart from "./Cart/Cart";
 import { useCart } from '../context/CartContext';
 import { getFromLocalStorage, logout } from '../Network/local/localstorage';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -58,18 +58,18 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-4">
                         {!isAuthenticated ? (
                             <>
-                                <a
-                                    href="/login"
+                                <Link
+                                    to="/login"
                                     className="text-white bg-blue-600 px-4 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out"
                                 >
                                     <span className="text-white">تسجيل الدخول</span>
-                                </a>
-                                <a
-                                    href="/register"
+                                </Link>
+                                <Link
+                                    to="/register"
                                     className="text-white bg-green-600 px-4 py-2 rounded-md hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out"
                                 >
                                     <span className="text-white">إنشاء حساب</span>
-                                </a>
+                                </Link>
                             </>
                         ) : (
                             <button
@@ -79,30 +79,30 @@ const Navbar = () => {
                                 تسجيل الخروج
                             </button>
                         )}
-                        <a
-                            href="contactus"
+                        <Link
+                            to="/contactus"
                             className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
                         >
                             <span className="text-white">تواصل معنا</span>
-                        </a>
-                        <a
-                            href="products"
+                        </Link>
+                        <Link
+                            to="/products"
                             className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
                         >
                             <span className="text-white">المتجر</span>
-                        </a>
-                        <a
-                            href="aboutus"
+                        </Link>
+                        <Link
+                            to="/aboutus"
                             className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
                         >
                             <span className="text-white">من نحن</span>
-                        </a>
-                        <a
-                            href="/"
+                        </Link>
+                        <Link
+                            to="/"
                             className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
                         >
                             <span className="text-white">الرئيسية</span>
-                        </a>
+                        </Link>
 
                         {/* Shopping Cart Icon - Desktop */}
                         <div className="relative cursor-pointer" onClick={() => setIsCartOpen(!isCartOpen)}>
@@ -122,20 +122,20 @@ const Navbar = () => {
                         <div className="flex flex-col items-end space-y-3">
                             {!isAuthenticated ? (
                                 <>
-                                    <a
-                                        href="/login"
+                                    <Link
+                                        to="/login"
                                         className="text-white bg-blue-600 px-4 py-2 rounded-md w-full text-center hover:bg-blue-700"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         تسجيل الدخول
-                                    </a>
-                                    <a
-                                        href="/register"
+                                    </Link>
+                                    <Link
+                                        to="/register"
                                         className="text-white bg-green-600 px-4 py-2 rounded-md w-full text-center hover:bg-green-700"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         إنشاء حساب
-                                    </a>
+                                    </Link>
                                 </>
                             ) : (
                                 <button
@@ -148,34 +148,34 @@ const Navbar = () => {
                                     تسجيل الخروج
                                 </button>
                             )}
-                            <a
-                                href="/"
+                            <Link
+                                to="/"
                                 className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 الرئيسية
-                            </a>
-                            <a
-                                href="aboutus"
+                            </Link>
+                            <Link
+                                to="/aboutus"
                                 className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 من نحن
-                            </a>
-                            <a
-                                href="products"
+                            </Link>
+                            <Link
+                                to="/products"
                                 className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 المتجر
-                            </a>
-                            <a
-                                href="contactus"
+                            </Link>
+                            <Link
+                                to="/contactus"
                                 className="!text-white no-underline block w-full text-center py-2 bg-transparent hover:text-white visited:text-white"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 تواصل معنا
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 )}
