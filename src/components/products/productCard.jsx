@@ -1,12 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import RateStars from "./RateStars";
+import { useCart } from '../../context/CartContext';
 
 const ProductCard = (props) => {
   const product = props.product;
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleQuickView = () => {
     navigate(`/products/${product.id}`);
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.title,
+      price: product.price,
+      image: product.image
+    });
   };
 
   return (
@@ -43,7 +54,10 @@ const ProductCard = (props) => {
             ${product.price}
           </span>
 
-          <button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm font-medium">
+          <button 
+            onClick={handleAddToCart}
+            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm font-medium"
+          >
             Add to Cart
           </button>
         </div>

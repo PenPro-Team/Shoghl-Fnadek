@@ -8,22 +8,28 @@ import Products from "./Pages/products";
 import ProductDetails from "./Pages/productDetails";
 import HomePage from "./Pages/homePage";
 import Navbar from "./components/navbar";
+import { CartProvider } from "./context/CartContext";
+import Checkout from "./Pages/checkout";
+import PaymentConfirmation from "./Pages/paymentConfirmation";
+
 function App() {
-
   return (
-
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="" element={<HomePage />} />
-        <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/contactus" element={<Contactus />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-      </Routes>
-    </Router>
+    <CartProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="" element={<HomePage />} />
+          <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/contactus" element={<Contactus />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
+        </Routes>
+      </Router>
+    </CartProvider>
   );
 }
 
