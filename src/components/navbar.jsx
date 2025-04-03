@@ -11,25 +11,25 @@ const Navbar = () => {
                 {/* Links */}
                 <div className="flex items-center space-x-4">
                     <a
-                        href="#home"
+                        href="/"
                         className=" hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                     >
                         <span className="text-white">الرئيسية</span>
                     </a>
                     <a
-                        href="#about"
+                        href="aboutus"
                         className="text-white hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                     >
                         <span className="text-white">من نحن</span>
                     </a>
                     <a
-                        href="#shop"
+                        href="products"
                         className="text-white hover:text-white hover:scale-110 transition duration-300 ease-in-out"
                     >
                         <span className="text-white">المتجر</span>
                     </a>
                     <a
-                        href="#contact"
+                        href="contactus"
                         className=" text-white hover:text-gray hover:scale-110 transition duration-300 ease-in-out"
                     >
                         <span className="text-white">تواصل معنا</span>
