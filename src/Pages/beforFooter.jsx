@@ -1,6 +1,6 @@
 import React from 'react';
 import image1 from "../assets/IMG_20250226_140833.jpg";
-const BeforFooter = () => {
+const BeforeFooter = () => {
     return (
         <section className="w-full flex flex-col md:flex-row">
             {/* Left side */}
@@ -49,4 +49,4 @@ const BeforFooter = () => {
 };
 
 
-export default BeforFooter;
+export default BeforeFooter;
