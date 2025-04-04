@@ -1,11 +1,15 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { getFromLocalStorage } from '../Network/local/localstorage';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const currentUser = getFromLocalStorage('auth');
+  const userId = currentUser?.user?.id;
+
   const [cartItems, setCartItems] = useState(() => {
     try {
-      const savedCart = localStorage.getItem('cart');
+      const savedCart = localStorage.getItem(`cart_${userId || 'guest'}`);
       return savedCart ? JSON.parse(savedCart) : [];
     } catch (error) {
       console.error('Error loading cart:', error);
@@ -15,11 +19,32 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('cart', JSON.stringify(cartItems));
+      localStorage.setItem(`cart_${userId || 'guest'}`, JSON.stringify(cartItems));
     } catch (error) {
       console.error('Error saving cart:', error);
     }
-  }, [cartItems]);
+  }, [cartItems, userId]);
+
+  useEffect(() => {
+    if (userId) {
+      const guestCart = JSON.parse(localStorage.getItem('cart_guest') || '[]');
+      if (guestCart.length > 0) {
+        setCartItems(prevItems => {
+          const mergedCart = [...prevItems];
+          guestCart.forEach(guestItem => {
+            const existingItem = mergedCart.find(item => item.id === guestItem.id);
+            if (existingItem) {
+              existingItem.quantity += guestItem.quantity;
+            } else {
+              mergedCart.push(guestItem);
+            }
+          });
+          localStorage.removeItem('cart_guest');
+          return mergedCart;
+        });
+      }
+    }
+  }, [userId]);
 
   const addToCart = (item) => {
     setCartItems(prev => {
@@ -51,8 +76,8 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = useCallback(() => {
     setCartItems([]);
-    localStorage.removeItem('cart');
-  }, []);
+    localStorage.removeItem(`cart_${userId || 'guest'}`);
+  }, [userId]);
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 

@@ -11,6 +11,7 @@ import Navbar from "./components/navbar";
 import { CartProvider } from "./context/CartContext";
 import Checkout from "./Pages/checkout";
 import PaymentConfirmation from "./Pages/paymentConfirmation";
+import MyOrders from "./Pages/MyOrders";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
+          <Route path="/my-orders" element={<MyOrders />} />
         </Routes>
       </Router>
     </CartProvider>

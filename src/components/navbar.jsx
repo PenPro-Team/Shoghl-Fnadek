@@ -3,11 +3,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Cart from "./Cart/Cart";
 import { useCart } from '../context/CartContext';
+import { getFromLocalStorage } from '../Network/local/localstorage';
 
 const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { cartCount } = useCart();
+    const currentUser = getFromLocalStorage('auth');
+    const isAuthenticated = !!currentUser?.access;
 
     return (
         <>
@@ -64,6 +67,15 @@ const Navbar = () => {
                             <span className="text-white">الرئيسية</span>
                         </a>
 
+                        {isAuthenticated && (
+                            <a
+                                href="/my-orders"
+                                className="text-white hover:text-gray-300 hover:scale-110 transition duration-300 ease-in-out"
+                            >
+                                <span className="text-white">طلباتي</span>
+                            </a>
+                        )}
+
                         {/* Shopping Cart Icon - Desktop */}
                         <div className="relative cursor-pointer" onClick={() => setIsCartOpen(!isCartOpen)}>
                             <FaShoppingCart className="text-2xl hover:scale-110 transition duration-300 ease-in-out" />
@@ -108,6 +120,15 @@ const Navbar = () => {
                             >
                                 تواصل معنا
                             </a>
+                            {isAuthenticated && (
+                                <a
+                                    href="/my-orders"
+                                    className="text-white hover:text-gray-300 block w-full text-right py-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    طلباتي
+                                </a>
+                            )}
                         </div>
                     </div>
                 )}

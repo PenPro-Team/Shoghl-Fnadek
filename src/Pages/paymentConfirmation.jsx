@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { AxiosOrdersInstance } from '../Network/Remote/AxiosInstance';
+import { getFromLocalStorage } from '../Network/local/localstorage';
 
 const PaymentConfirmation = () => {
   const [screenshot, setScreenshot] = useState(null);
@@ -11,12 +12,14 @@ const PaymentConfirmation = () => {
   const [fileError, setFileError] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [orderId, setOrderId] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { cartItems, clearCart } = useCart();  // Add clearCart to destructuring
   const { orderDetails } = location.state || {};
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 10; // 10 for shipping
-
+  const currentUser = getFromLocalStorage('auth');
+  const token = currentUser?.access;
   const handleSuccessfulOrder = useCallback(() => {
     setSuccess(true);
     clearCart();
@@ -31,6 +34,8 @@ const PaymentConfirmation = () => {
     console.log('Location state:', location.state);
     console.log('Order details:', orderDetails);
     console.log('Cart items:', cartItems);
+    // console.log('token', currentUser.access);
+    
   }, [location.state, orderDetails, cartItems]);
 
   // Check for order details and cart items using useEffect
@@ -71,39 +76,52 @@ const PaymentConfirmation = () => {
     
     const formData = new FormData();
 
-    formData.append('first_name', orderDetails.firstName);
-    formData.append('last_name', orderDetails.lastName);
-    formData.append('email', orderDetails.email);
-    formData.append('phone', orderDetails.phone);
-    formData.append('address', orderDetails.address);
-    formData.append('city', orderDetails.city);
-    formData.append('notes', orderDetails.notes || '');
-    formData.append('total_amount', total.toString());
-    formData.append('shipping_cost', '10.00');
-    formData.append('payment_method', 'vodafone-cash');
-    formData.append('items', JSON.stringify(cartItems.map(item => ({
-      product_id: item.id,
-      quantity: item.quantity
-    }))));
+    const orderPayload = {
+      first_name: orderDetails.firstName,
+      last_name: orderDetails.lastName,
+      email: orderDetails.email,
+      phone: orderDetails.phone,
+      address: orderDetails.address,
+      city: orderDetails.city,
+      notes: orderDetails.notes || '',
+      total_amount: total.toString(),
+      shipping_cost: '10.00',
+      payment_method: 'vodafone-cash',
+      items: cartItems.map(item => ({
+        product_id: item.id,
+        quantity: item.quantity
+      }))
+    };
+
+    // Log request details
+    console.log('Order Payload:', {
+      ...orderPayload,
+      items: JSON.stringify(orderPayload.items),
+      file: screenshot.name
+    });
+
+    // Add all fields to FormData
+    Object.entries(orderPayload).forEach(([key, value]) => {
+      formData.append(key, key === 'items' ? JSON.stringify(value) : value);
+    });
     formData.append('payment_proof', screenshot);
 
-    // Log the form data
-    console.log('Form Data Content:');
+    // Log FormData entries
     for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
+      console.log('FormData Entry:', pair[0], pair[1]);
     }
 
     try {
-      const response = await AxiosOrdersInstance.post('/', formData, {  // Changed from '/create/'
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
+      const response = await AxiosOrdersInstance.post('/', formData);
+      console.log('Response received:', response.data);
+      
       if (response.status === 201) {
+        setOrderId(response.data.order_id);
         handleSuccessfulOrder();
       }
     } catch (error) {
+      console.error('Full error:', error);
+      console.error('Error response:', error.response?.data);
       setError(
         error.response?.data?.error || 
         'حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.'
@@ -136,10 +154,11 @@ const PaymentConfirmation = () => {
             </div>
             <h2 className="text-3xl font-bold text-green-800 mb-4">تم إرسال الطلب بنجاح!</h2>
             <p className="text-green-600 text-lg mb-4">شكراً لك على طلبك</p>
-            <p className="text-green-500">سيتم تحويلك للصفحة الرئيسية خلال لحظات...</p>
-            <div className="mt-8 text-sm text-gray-500">
-              رقم الطلب: #{Math.random().toString(36).substr(2, 9).toUpperCase()}
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <p className="text-gray-600 mb-2">رقم الطلب الخاص بك</p>
+              <p className="text-xl font-bold text-gray-800">#{orderId}</p>
             </div>
+            <p className="text-green-500 mt-6">سيتم تحويلك للصفحة الرئيسية خلال لحظات...</p>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">

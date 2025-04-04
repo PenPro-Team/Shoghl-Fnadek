@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FormInput from '../components/auth/FormInput';
 import PasswordInput from '../components/auth/PasswordInput';
 import SubmitButton from '../components/auth/SubmitButton';
@@ -9,6 +9,8 @@ import { setToLocalStorage } from '../Network/local/localstorage';
 
 const Login = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const returnPath = location.state?.from || '/';
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -71,7 +73,7 @@ const Login = () => {
                     refresh: response.data.refresh,
                     isAuthenticated: true
                 });
-                navigate('/', { replace: true });
+                navigate(returnPath);
 
             } catch (error) {
                 console.error('Login error:', error);
