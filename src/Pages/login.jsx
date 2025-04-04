@@ -65,8 +65,13 @@ const Login = () => {
                     password: formData.password
                 });
             
-              
-                console.log('Login successful:', response.data);
+                // Transfer guest cart to user cart before login
+                const guestCart = localStorage.getItem('cart_guest');
+                if (guestCart) {
+                    localStorage.setItem('cart', guestCart);
+                    localStorage.removeItem('cart_guest');
+                }
+
                 setToLocalStorage('auth',{
                     user: response.data.user,
                     access: response.data.access,

@@ -5,12 +5,24 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const currentUser = getFromLocalStorage('auth');
-  const userId = currentUser?.user?.id;
+  const isAuthenticated = !!currentUser?.access;
 
   const [cartItems, setCartItems] = useState(() => {
     try {
-      const savedCart = localStorage.getItem(`cart_${userId || 'guest'}`);
-      return savedCart ? JSON.parse(savedCart) : [];
+      if (isAuthenticated) {
+        const savedCart = localStorage.getItem('cart');
+        // If user is logged in and has no cart but has guest cart, use guest cart
+        if (!savedCart && localStorage.getItem('cart_guest')) {
+          const guestCart = localStorage.getItem('cart_guest');
+          localStorage.setItem('cart', guestCart);
+          localStorage.removeItem('cart_guest');
+          return JSON.parse(guestCart);
+        }
+        return savedCart ? JSON.parse(savedCart) : [];
+      } else {
+        const guestCart = localStorage.getItem('cart_guest');
+        return guestCart ? JSON.parse(guestCart) : [];
+      }
     } catch (error) {
       console.error('Error loading cart:', error);
       return [];
@@ -19,32 +31,12 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem(`cart_${userId || 'guest'}`, JSON.stringify(cartItems));
+      const cartKey = isAuthenticated ? 'cart' : 'cart_guest';
+      localStorage.setItem(cartKey, JSON.stringify(cartItems));
     } catch (error) {
       console.error('Error saving cart:', error);
     }
-  }, [cartItems, userId]);
-
-  useEffect(() => {
-    if (userId) {
-      const guestCart = JSON.parse(localStorage.getItem('cart_guest') || '[]');
-      if (guestCart.length > 0) {
-        setCartItems(prevItems => {
-          const mergedCart = [...prevItems];
-          guestCart.forEach(guestItem => {
-            const existingItem = mergedCart.find(item => item.id === guestItem.id);
-            if (existingItem) {
-              existingItem.quantity += guestItem.quantity;
-            } else {
-              mergedCart.push(guestItem);
-            }
-          });
-          localStorage.removeItem('cart_guest');
-          return mergedCart;
-        });
-      }
-    }
-  }, [userId]);
+  }, [cartItems, isAuthenticated]);
 
   const addToCart = (item) => {
     setCartItems(prev => {
@@ -76,8 +68,9 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = useCallback(() => {
     setCartItems([]);
-    localStorage.removeItem(`cart_${userId || 'guest'}`);
-  }, [userId]);
+    const cartKey = isAuthenticated ? 'cart' : 'cart_guest';
+    localStorage.removeItem(cartKey);
+  }, [isAuthenticated]);
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
