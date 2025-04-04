@@ -5,14 +5,14 @@ import Cart from "./Cart/Cart";
 import { useCart } from '../context/CartContext';
 import { getFromLocalStorage, logout } from '../Network/local/localstorage';
 import { Link, useNavigate } from 'react-router-dom';
-
+// here my navBar
 const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { cartCount } = useCart();
     const navigate = useNavigate();
-
+    const homeBage = useNavigate();
     useEffect(() => {
         const authData = getFromLocalStorage('auth');
         setIsAuthenticated(authData?.isAuthenticated || false);
