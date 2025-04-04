@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import CheckoutForm from '../components/Checkout/CheckoutForm';
 import OrderSummary from '../components/Checkout/OrderSummary';
 import { useCart } from '../context/CartContext';
+import { getFromLocalStorage } from '../Network/local/localstorage';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems } = useCart();
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const currentUser = getFromLocalStorage('auth');
+  const isAuthenticated = !!currentUser?.access;
 
   useEffect(() => {
     const hasItems = cartItems.length > 0;
@@ -40,16 +43,38 @@ const Checkout = () => {
     });
   };
 
-//   if (cartItems.length === 0) {
-//     return (
-//       <div className="container mx-auto px-4 py-8 text-center">
-//         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-//           <h2 className="text-xl font-semibold text-yellow-800 mb-2">السلة فارغة</h2>
-//           <p className="text-yellow-600">سيتم تحويلك إلى صفحة المنتجات...</p>
-//         </div>
-//       </div>
-//     );
-//   }
+  if (cartItems.length === 0) {
+    // ...existing empty cart JSX...
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+          <h2 className="text-2xl font-bold text-center mb-6">تسجيل الدخول مطلوب</h2>
+          <p className="text-gray-600 text-center mb-8">
+            يرجى تسجيل الدخول أو إنشاء حساب جديد لإتمام عملية الشراء
+          </p>
+          <div className="space-y-4">
+            <Link 
+              to="/login" 
+              state={{ from: '/checkout' }}
+              className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            >
+              تسجيل الدخول
+            </Link>
+            <Link 
+              to="/register" 
+              state={{ from: '/checkout' }}
+              className="block w-full bg-gray-100 text-gray-700 text-center py-3 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+            >
+              إنشاء حساب جديد
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
