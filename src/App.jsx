@@ -12,6 +12,7 @@ import { CartProvider } from "./context/CartContext";
 import Checkout from "./Pages/checkout";
 import PaymentConfirmation from "./Pages/paymentConfirmation";
 import MyOrders from "./Pages/MyOrders";
+import Footer from "./Pages/Footer";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
           <Route path="/my-orders" element={<MyOrders />} />
         </Routes>
+        <Footer />
       </Router>
     </CartProvider>
   );
