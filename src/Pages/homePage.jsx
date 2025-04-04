@@ -7,7 +7,7 @@ import MostPopularSection from './mostPopularSection';
 import StaticHeroSection from './staticSection';
 import TrendingSection from './trendingSection';
 import TestimonialSection from './testmunialSection';
-import BeforFooter from './beforFooter';
+import BeforeFooter from './beforFooter';
 import Footer from './Footer';
 
 const HomePage = () => {
@@ -21,7 +21,7 @@ const HomePage = () => {
             <StaticHeroSection />
             <TrendingSection />
             <TestimonialSection />
-            <BeforFooter />
+            <BeforeFooter />
             <Footer />
         </>
     )
