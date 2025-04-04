@@ -61,17 +61,17 @@ const Cart = ({ onClose }) => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
                           <button
-                            className="p-2 hover:bg-gray-200 rounded-md transition-colors"
+                            className="p-2 hover:bg-gray-200 rounded-md transition-colors text-gray-600 hover:text-black"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           >
-                            <FiMinus size={14} />
+                            <FiMinus size={14} className="stroke-current" />
                           </button>
                           <span className="w-8 text-center font-medium">{item.quantity}</span>
                           <button
-                            className="p-2 hover:bg-gray-200 rounded-md transition-colors"
+                            className="p-2 hover:bg-gray-200 rounded-md transition-colors text-gray-600 hover:text-black"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
-                            <FiPlus size={14} />
+                            <FiPlus size={14} className="stroke-current" />
                           </button>
                         </div>
                         

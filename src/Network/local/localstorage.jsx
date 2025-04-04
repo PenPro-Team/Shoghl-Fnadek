@@ -54,6 +54,7 @@ export const logout = async () => {
       console.warn("No valid tokens found for logout");
       // Still clear storage even if tokens aren't available
       removeFromLocalStorage("auth");
+      removeFromLocalStorage("cart");
       localStorage.setItem("auth", JSON.stringify(loginInitialState));
       return true;
     }
