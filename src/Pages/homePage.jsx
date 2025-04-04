@@ -22,7 +22,7 @@ const HomePage = () => {
             <TrendingSection />
             <TestimonialSection />
             <BeforeFooter />
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 };
