@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FormInput from '../components/auth/FormInput';
 import PasswordInput from '../components/auth/PasswordInput';
 import SubmitButton from '../components/auth/SubmitButton';
 import AuthCard from '../components/auth/AuthCard';
+import { AxiosLoginInstance } from '../Network/Remote/AxiosInstance';
+import { setToLocalStorage } from '../Network/local/localstorage';
 
 const Login = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const returnPath = location.state?.from || '/';
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -45,7 +49,9 @@ const Login = () => {
         
         return newErrors;
     };
-
+   
+    let isAuthenticated = false;
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = validateForm();
@@ -54,15 +60,40 @@ const Login = () => {
             setIsSubmitting(true);
             
             try {
-                // API call would go here
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                console.log('Login attempted', formData);
+                 const response = await AxiosLoginInstance.post('', {
+                    email: formData.email,
+                    password: formData.password
+                });
+            
+                // Transfer guest cart to user cart before login
+                const guestCart = localStorage.getItem('cart_guest');
+                if (guestCart) {
+                    localStorage.setItem('cart', guestCart);
+                    localStorage.removeItem('cart_guest');
+                }
 
-                // navigate('/dashboard');
-                alert('Login successful!');
+                setToLocalStorage('auth',{
+                    user: response.data.user,
+                    access: response.data.access,
+                    refresh: response.data.refresh,
+                    isAuthenticated: true
+                });
+                navigate(returnPath);
+
             } catch (error) {
                 console.error('Login error:', error);
-                setErrors({ submit: 'Invalid email or password. Please try again.' });
+                if (error.response) {
+                    
+                    if (error.response.status === 401) {
+                        setErrors({ submit: 'Invalid email or password. Please try again.' });
+                    } else {
+                        setErrors({ submit: `Login failed: ${error.response.data.message || 'Please try again later.'}` });
+                    }
+                } else if (error.request) {
+                    setErrors({ submit: 'Network error. Please check your connection and try again.' });
+                } else {
+                    setErrors({ submit: 'An error occurred. Please try again later.' });
+                }
             } finally {
                 setIsSubmitting(false);
             }
