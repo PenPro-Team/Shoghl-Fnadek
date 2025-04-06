@@ -1,6 +1,6 @@
 import React from "react";
-import Image1 from "../assets/IMG_20250226_140833.jpg";
-import Image2 from "../assets/IMG_20250226_141719.jpg";
+import Image1 from "../assets/Image4.jpeg";
+import Image2 from "../assets/Image5.jpeg";
 
 const AboutSection = () => {
     return (

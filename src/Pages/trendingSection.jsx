@@ -1,7 +1,7 @@
 import React from 'react';
-import image1 from "../assets/IMG_20250226_140833.jpg";
-import image2 from "../assets/IMG_20250226_141719.jpg";
-
+import image1 from "../assets/Image15.jpeg";
+import image2 from "../assets/Image9.jpeg";
+import image3 from "../assets/Image12.jpeg";
 const TrendingSection = () => {
     const products = [
         {
@@ -18,7 +18,7 @@ const TrendingSection = () => {
             id: 2,
             name: 'Ceramic Cup',
             category: 'Ceramic',
-            image: image1,
+            image: image2,
             regularPrice: 237.00,
             salePrice: 189.00,
             rating: 0,
@@ -28,7 +28,7 @@ const TrendingSection = () => {
             id: 3,
             name: 'Ceramic Drink Coasters',
             category: 'Ceramic',
-            image: image2,
+            image: image3,
             regularPrice: 157.00,
             salePrice: 99.00,
             rating: 0,

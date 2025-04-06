@@ -1,5 +1,5 @@
 import React from 'react';
-import image1 from "../assets/IMG_20250226_140833.jpg";
+import image1 from "../assets/Image1.jpeg";
 const BeforeFooter = () => {
     return (
         <section className="w-full flex flex-col md:flex-row">
@@ -21,7 +21,7 @@ const BeforeFooter = () => {
                     Uncover the World of Ceramic Artistry Start Your Journey Here!
                 </h1>
                 <div>
-                    <button className="border-2 border-white text-white px-6 py-2 uppercase font-medium tracking-wider hover:bg-white hover:text-green-800 transition-colors duration-300">
+                    <button className="border-2 border-white text-white px-6 py-2 uppercase font-medium tracking-wider hover:bg-white transition-colors duration-300">
                         SHOP NOW
                     </button>
                 </div>

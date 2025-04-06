@@ -1,6 +1,7 @@
 import React from 'react';
-import image1 from "../assets/IMG_20250226_140833.jpg";
-import image2 from "../assets/IMG_20250226_141719.jpg";
+import image1 from "../assets/Image3.jpeg";
+import image2 from "../assets/Image11.jpeg";
+import image3 from "../assets/Image16.jpeg";
 const MostPopularSection = () => {
     // Product data with local image paths
     const products = [
@@ -17,7 +18,7 @@ const MostPopularSection = () => {
             id: 2,
             name: 'Ceramic Planter',
             category: 'Ceramic',
-            image: image1,
+            image: image2,
             regularPrice: 349.00,
             salePrice: 299.00,
             rating: 0,
@@ -26,7 +27,7 @@ const MostPopularSection = () => {
             id: 3,
             name: 'Ceramic Plates',
             category: 'Ceramic',
-            image: image2,
+            image: image3,
             regularPrice: 179.00,
             salePrice: 119.00,
             rating: 0,

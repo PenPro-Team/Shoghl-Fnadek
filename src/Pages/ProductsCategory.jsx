@@ -1,10 +1,10 @@
 import React from "react";
-import image1 from "../assets/IMG_20250226_140833.jpg";
-import image2 from "../assets/IMG_20250226_141719.jpg";
-
+import image1 from "../assets/Image6.jpeg";
+import image2 from "../assets/Image7.jpeg";
+import image3 from "../assets/Image8.jpeg";
 const ProductCategorySection = () => {
   return (
-    <div className="bg-gray-50" style={{ backgroundColor: "#f9f7f4" }}>
+    <div className="bg-gray-100" style={{ backgroundColor: "#f9f7f4" }}>
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-10">
           <p className="uppercase text-sm tracking-widest text-gray-600 mb-2">THE BEST OF CERAMICS</p>
@@ -36,7 +36,7 @@ const ProductCategorySection = () => {
             {/* Top Item - Trending Ceramic Dinnerware */}
             <div className="relative overflow-hidden rounded-lg shadow-md">
               <img
-                src={image1}
+                src={image2}
                 alt="Trending Ceramic Dinnerware"
                 className="w-full h-44 object-cover"
               />
@@ -49,7 +49,7 @@ const ProductCategorySection = () => {
             {/* Bottom Item - Garden and Outdoor Accents */}
             <div className="relative overflow-hidden rounded-lg shadow-md">
               <img
-                src={image2}
+                src={image3}
                 alt="Garden and Outdoor Accents"
                 className="w-full h-44 object-cover"
               />

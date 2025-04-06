@@ -1,5 +1,5 @@
 import React from 'react';
-import image3 from "../assets/1740865492770.jpeg";
+import image3 from "../images/1.jpg";
 
 const StaticHeroSection = () => {
     return (
@@ -19,7 +19,7 @@ const StaticHeroSection = () => {
                     <p className="text-teal-600 mb-6">
                         Starting from just $149.00
                     </p>
-                    <button className="border border-teal-800 text-teal-800 px-8 py-3 uppercase text-sm tracking-wider hover:bg-teal-800 hover:text-white transition-colors duration-300">
+                    <button className="border border-teal-800 text-white px-8 py-3 uppercase text-sm tracking-wider hover:bg-teal-800 transition-colors duration-300">
                         Shop Now
                     </button>
                 </div>
