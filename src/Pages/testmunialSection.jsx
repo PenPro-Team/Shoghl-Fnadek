@@ -1,6 +1,5 @@
 import React from 'react';
 import image1 from "../assets/IMG_20250226_140833.jpg";
-import image2 from "../assets/IMG_20250226_141719.jpg";
 const TestimonialSection = () => {
     const testimonials = [
         {
@@ -64,7 +63,7 @@ const TestimonialSection = () => {
     };
 
     return (
-        <section className="py-12 px-4 md:px-8 bg-gray-50">
+        <section className="py-12 px-4 md:px-8 bg-gray-100">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-8">
                     <span className="text-sm font-medium text-blue-800 uppercase tracking-wider">TESTIMONIAL</span>

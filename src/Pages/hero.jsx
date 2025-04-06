@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/navbar"
-import CeramicImage1 from "../assets/IMG_20250226_140833.jpg";
-import CeramicImage2 from "../assets/IMG_20250226_141719.jpg";
+import CeramicImage1 from "../assets/Image1.jpeg";
+import CeramicImage2 from "../assets/Image2.jpeg";
 const Hero = () => {
     return (
         <div className="bg-green-800 text-white py-16 px-8">
@@ -9,12 +9,12 @@ const Hero = () => {
                 {/* Text Content */}
                 <div className="text-center lg:text-left flex flex-col justify-center">
                     <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                        مرحباً بكم في متجر السيراميك
+                        مرحباً بكم في متجر شغل فنادق
                     </h1>
                     <p className="text-lg md:text-xl mb-6">
                         ارتقِ بمساحتك مع أناقة السيراميك. الأسعار تبدأ من 149 جنيهًا.
                     </p>
-                    <button className="w-50 bg-transparent border border-white text-white font-semibold py-2 px-6 rounded transition duration-300 ease-in-out hover:bg-white hover:text-green-800">
+                    <button className="w-50 bg-transparent border border-white text-white font-semibold py-2 px-6 rounded transition duration-300 ease-in-out hover:bg-white">
                         تسوق الآن
                     </button>
                 </div>
